@@ -22,7 +22,7 @@ model Farmer {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
   username String
   email    String  @unique
-  role     Role    @default(FARMER)
+  role     Role 
   password String
   orders   Order[]
 }
