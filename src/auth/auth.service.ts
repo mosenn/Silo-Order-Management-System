@@ -8,6 +8,7 @@ import { registerDto } from './dto/register-auth';
 import { loginDto } from './dto/login-auth';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from '@prisma/client';
 @Injectable()
 export class AuthService {
   constructor(
@@ -19,34 +20,34 @@ export class AuthService {
 
   async farmerRegister(body: registerDto) {
     // * check user before register
-    const user = await this.prisma.farmer.findUnique({
+    const farmer = await this.prisma.farmer.findUnique({
       where: {
         email: body.email,
       },
       select: { email: true },
     });
-    // console.log(user, 'user check user');
-    if (user) {
+    if (farmer) {
       throw new UnauthorizedException('با این ایمیل قبلا ثبت نام کردید');
     }
-    // console.log('body : ', body);
 
     //* hash password
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(body.password, salt);
 
-    //* create user
-    const newUser = await this.prisma.farmer.create({
+    const role: Role =
+      body.role === 'ADMIN' || body.role === 'FARMER'
+        ? (body.role as Role)
+        : Role.FARMER;
+
+    //* create Farmer
+    const newFarmer = await this.prisma.farmer.create({
       data: {
         ...body,
-
-        // role: Role.USER,
+        role,
         password: hashPassword,
-        // pic:'https://i.ibb.co/HNXCbHM/user.png'
       },
     });
-    // console.log('new user', newUser);
-    return { message: 'شما به عنوان کشاورز ثبت نام شدید', newUser };
+    return { message: 'شما به عنوان کشاورز ثبت نام شدید', newFarmer };
   }
 
   //*POST -  Login
@@ -55,8 +56,14 @@ export class AuthService {
     //* found farmer
     const farmer = await this.prisma.farmer.findUnique({
       where: { email },
-      //   role:true
-      select: { id: true, email: true, password: true, username: true },
+
+      select: {
+        id: true,
+        email: true,
+        password: true,
+        username: true,
+        role: true,
+      },
     });
     //* check farmer exist or not
     if (!farmer) {
@@ -70,13 +77,14 @@ export class AuthService {
     if (!comparePassword) {
       throw new UnauthorizedException();
     }
-    const { id, username } = farmer;
+    const { id, username , role} = farmer;
     console.log(id, username);
     //* sign token
     const token = await this.jwtService.sign({
       id,
       email,
       username,
+      role
     });
     return {
       token: token,
