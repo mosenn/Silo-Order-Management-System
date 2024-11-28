@@ -13,10 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  FARMER
+  ADMIN
+}
+
 model Farmer {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
+  username String
   email    String  @unique
+  role     Role    @default(FARMER)
   password String
   orders   Order[]
 }
