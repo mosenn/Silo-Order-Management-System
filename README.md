@@ -19,7 +19,7 @@ npm run start:dev
 DATABASE_URL=""
 JWT_SECRET = ""
 
-## Folders 
+## Folders 👇
 
 درون فولدر schema.prisma مدل های مورد نیاز ایجاد شده و همینطور ارتباط با mongodb برقرار شده 
 
@@ -37,8 +37,10 @@ JWT_SECRET = ""
 
 درون فولدر redis هم یک redis.module.ts داریم که ارتباط redis رو برقرار کرده . 
 
+درون هر فولدر به عنوان مثال order یک فولدر به اسم dto تعریف شده که وظیفه ولیدیشن رو به عهده داره .
 
-## API 
+
+## API ✨
 
 برای ثبت نام نیاز هست که فیلد های زیر رو داشته باشید 
 
@@ -54,13 +56,13 @@ JWT_SECRET = ""
 
 }
 ```
-
 ```
 
 http://localhost:2024/auth/register 
 
 ```
 
+وردی های register رو نیاز داره به غیر از role
 ```
 http://localhost:2024/auth/login
 ```
@@ -71,9 +73,33 @@ http://localhost:2024/auth/login
 http://localhost:2024/order/create
 ```
 
-فقط کسی که ادمین هست می تونه تمامی محصولات رو مشاهده کنه 
+فقط کسی که ادمین هست می تونه تمامی محصولات رو مشاهده کنه که نیاز به توکن هست که باز زمان لاگین شدن این توکن رو به شما خواهد داد
 ```
 http://localhost:2024/order/admin
 ```
 
+فقط ادمین می تونه وضیعت محصول رو تغییر بده که نیاز به ست کردن توکن هست که توکن رو موثع لاگین دریافت می کنید و نیاز هست که به عنوان param بیایم id محصول رو بهش پاس بدیم 
 
+```
+http://localhost:2024/order/admin/67489435b59b9585e3eab1be
+```
+
+کشاورز می تونه تمامی محصولات که صرفا خودش ایجاد کرده رو ببینه و نیاز به ست کردن توکن هست که توکن رو موقع لاگین شما خواهید داشت 
+
+```
+http://localhost:2024/order/farmer/orders
+```
+
+
+##  API Cache 🚀
+
+این Api ها به وسیله redis کش شدن که کد مربوط رو می تونید درون order.controller.ts مشاهده کنید 
+
+
+```
+http://localhost:2024/order/farmer/orders
+```
+
+```
+http://localhost:2024/order/admin
+```
