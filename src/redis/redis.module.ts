@@ -6,18 +6,16 @@ import { createClient } from 'redis';
     {
       provide: 'REDIS_CLIENT',
       useFactory: async () => {
-        const clinet = createClient({
-          url: process.env.REDIS_URL,
-          socket: {
-            tls: true,
-            rejectUnauthorized: false,
-          },
+        const client = createClient({
+          url: 'redis://:ItHmO03p0NLgZMnl9OlYRtnC@fuji.liara.cloud:33073/0',
         });
-        clinet.on('error', (err) => {
-            console.log('Redis Client Error', err);
+
+        client.on('error', (err) => {
+          console.error('Redis Client Error:', err);
         });
-        await clinet.connect();
-        return clinet;
+
+        await client.connect();
+        return client;
       },
     },
   ],
