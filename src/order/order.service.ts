@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order';
 import { UpdateOrderDto } from './dto/update-order';
 import { Farmer } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { RedisClientType } from 'redis';
 
 @Injectable()

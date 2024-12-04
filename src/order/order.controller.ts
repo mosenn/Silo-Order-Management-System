@@ -17,7 +17,7 @@ import { JwtAuthGuard } from '../guards/jwt/jwt-auth.guard';
 import { RolesGuard } from '../guards/Roles/roles.guards';
 import { Roles } from '../decorator/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
-import { CustomCache } from 'src/decorator/custom-cache.decorator';
+import { CustomCache } from '../decorator/custom-cache.decorator';
 
 @Controller('order')
 export class OrderController {
