@@ -56,7 +56,6 @@ export class AuthService {
     //* found farmer
     const farmer = await this.prisma.farmer.findUnique({
       where: { email },
-
       select: {
         id: true,
         email: true,
@@ -79,6 +78,7 @@ export class AuthService {
     }
     const { id, username , role} = farmer;
     console.log(id, username);
+    
     //* sign token
     const token = await this.jwtService.sign({
       id,
@@ -86,6 +86,7 @@ export class AuthService {
       username,
       role
     });
+
     return {
       token: token,
       data: farmer,

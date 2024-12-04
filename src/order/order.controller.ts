@@ -32,7 +32,7 @@ export class OrderController {
   }
 
   // مشاهده سفارش‌ها کشاورز
-  @CustomCache({ ttl: 600, enabled: true }) // 30 sec cache
+  @CustomCache({ ttl: 600, enabled: true }) // 10 min cache
   @Get('farmer/orders')
   @UseGuards(JwtAuthGuard)
   async findOrders(@Request() req) {

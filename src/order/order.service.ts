@@ -20,7 +20,7 @@ export class OrderService {
           farmerId: farmer.id,
         },
         include: {
-          farmer: { select: { username: true } },
+          farmer: { select: { username: true ,email:true } },
         },
       });
       await this.redisClinet.del(farmer.id);
