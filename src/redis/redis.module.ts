@@ -7,7 +7,8 @@ import { createClient } from 'redis';
       provide: 'REDIS_CLIENT',
       useFactory: async () => {
         const client = createClient({
-          url: 'redis://:ItHmO03p0NLgZMnl9OlYRtnC@fuji.liara.cloud:33073/0',
+    
+        url:process.env.REDIS_URL
         });
 
         client.on('error', (err) => {
